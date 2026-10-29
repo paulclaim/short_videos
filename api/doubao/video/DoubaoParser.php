@@ -32,12 +32,14 @@ class DoubaoParser
         if ($result) {
             // 只有当API响应的code为0时才返回成功
             if (isset($result['code']) && $result['code'] === 0) {
-                // 避免嵌套重复标签，如果API响应包含data字段，直接使用其内容
-                if (isset($result['data'])) {
-                    return $this->output(200, '解析成功', $result['data']);
-                } else {
-                    return $this->output(200, '解析成功', $result);
+                // 规范化输出，保证 data.url 字段存在以兼容各类快捷指令与客户端
+                $data = $result['data'] ?? $result;
+                if (is_array($data)) {
+                    if (empty($data['url'])) {
+                        $data['url'] = $data['video_url'] ?? $data['play_url'] ?? $data['video_play_url'] ?? ($data['video']['url'] ?? ($data['video']['play_addr'] ?? ''));
+                    }
                 }
+                return $this->output(200, '解析成功', $data);
             } else {
                 return $this->output(500, '解析失败: API返回错误', $result);
             }

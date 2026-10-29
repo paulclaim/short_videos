@@ -53,6 +53,14 @@ $platforms = [
         'keywords' => ['izuiyou'],
         'path' => 'zuiyou.php',
     ],
+    'doubao' => [
+        'keywords' => ['doubao'],
+        'path' => 'doubao/video/api.php',
+    ],
+    'jimengai' => [
+        'keywords' => ['jimeng'],
+        'path' => 'jimengai/index.php',
+    ],
 ];
 
 // 转发请求超时（秒）
