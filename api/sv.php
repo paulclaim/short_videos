@@ -62,12 +62,13 @@ $requestTimeout = 30;
 // 留空 = 仅信任 Web 服务器配置的 SERVER_NAME（无法被请求头伪造），
 // 防止伪造 Host 头把聚合转发指到任意主机（SSRF）。
 // 反向代理/多域名部署时在此列出本站域名，例如 ['api.example.com', 'www.example.com']。
-$allowedHosts = [];
+// 亦支持通过环境变量 ALLOWED_HOSTS 以逗号分隔传入。
+$allowedHosts = ($envHosts = getenv('ALLOWED_HOSTS')) ? array_filter(array_map('trim', explode(',', $envHosts))) : [];
 
 // 是否允许私网/保留地址作为本站域名（127.0.0.1、内网 IP 等）。
 // 仅本地开发（php -S、localhost 调试）临时置为 true；生产环境必须保持 false，
-// 防止伪造 Host 头探测服务器内网。
-$allowPrivateHosts = false;
+// 防止伪造 Host 头探测服务器内网。亦支持环境变量 ALLOW_PRIVATE_HOSTS。
+$allowPrivateHosts = filter_var(getenv('ALLOW_PRIVATE_HOSTS') ?: false, FILTER_VALIDATE_BOOLEAN);
 // ==================================================
 
 /**
