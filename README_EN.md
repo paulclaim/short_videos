@@ -107,6 +107,10 @@ If any rights holder believes there is infringement or improper use, please cont
 
 > If a direct video link returns **HTTP 403** (hotlink protection), proxy it through `api/svproxyurl.php` (PHP) or `cf_sv_proxy/worker.js` (Cloudflare Workers) — for the latter, see [cf_sv_proxy/README.md](cf_sv_proxy/README.md) for deployment and API docs.
 
+Doubao first uses its native share API. If it fails or only supplies resources marked `video_gen_watermark` / `watermark_dyn`, the parser sends the share link to the project author's public fallback at `https://api.bugpk.com/api/dbvideos`. Successful responses include `data.url`, title, author, and cover. If neither source supplies a usable resource, the JSON response has `code: 502`; known watermarked links are rejected. Removing CDN query parameters does not remove a burned-in watermark. The fallback depends on this third-party service, and expired video links require parsing the share link again.
+
+Run the offline Doubao regression checks with `php tests/doubao_parser_test.php`.
+
 ---
 
 ## 📦 Project Structure

@@ -102,6 +102,10 @@
 
 > 视频直链出现 **403 防盗链**时，可用 `api/svproxyurl.php`（PHP）或 `cf_sv_proxy/worker.js`（Cloudflare Workers）代理转发，后者部署与接口详见 [cf_sv_proxy/README.md](cf_sv_proxy/README.md)。
 
+豆包视频优先使用原生分享接口；若只返回 `video_gen_watermark` / `watermark_dyn` 水印资源或解析失败，则将分享链接交给项目作者的公开接口 `https://api.bugpk.com/api/dbvideos` 回退解析。成功结果统一提供 `data.url`、标题、作者和封面；两条路径均无可用资源时返回 JSON `code: 502`，不会把已识别的水印地址报为成功。删除 CDN URL 的水印参数无法去除已经烧录的水印。回退依赖该第三方接口的可用性，直链也可能过期，届时需要重新解析。
+
+豆包回归检查（无需网络）：`php tests/doubao_parser_test.php`。
+
 ---
 
 ## 📦 项目结构

@@ -7,8 +7,8 @@
  *@Api: api.bugpk.com
  *@tip: 豆包ai视频无水印解析（非对话生成的视频）-入口文件
  * 豆包视频无水印解析官方免费接口文档：https://api.bugpk.com/doc-dbvideos.html
- * 目前线上接口为旧版方案，最新原生无水印逻辑与抖音一致，依托 mtsoken、a_bogus算法和隐藏接口实现
- * 为规避接口失效、杜绝算法倒卖，核心底层源码暂不对外开放，现有公开接口可免费稳定使用
+ * 原生分享接口仅返回水印视频时，回退到项目作者维护的公开新版接口。
+ * 两条解析路径均检查水印标记；无法取得可用直链时返回错误。
  */
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
